@@ -6,11 +6,11 @@ const Button = ({text, eventHandler}) => {
   );
 }
 
-const Display = ({text, number}) => {
+const Statistic = ({text, value}) => {
   return(
-      <>
-        <b>{text}:</b> {number}<br/>
-      </>
+      <tr>
+        <td>{text}:</td><td>{value}</td>
+      </tr>
   );
 }
 
@@ -19,17 +19,31 @@ const Statistics = ({good, neutral, bad}) => {
   const av = (good - bad) / (sum);
   const positive = (good/sum) * 100;
 
-  return (
-    <div>
-      <Display text="good" number={good}/>
-      <Display text="neutral" number={neutral} />
-      <Display text="bad" number={bad} />
-      <Display text="all" number={sum} />
-      <Display text="average" number={av || 0} />
-      <Display text="positive" number={(positive || 0) + "%"} />
-    </div>
-      
-  );
+
+  if (sum === 0){
+    return (
+      <div>
+        No feedback given
+      </div>
+    )
+  } else {
+    return (
+      <div>
+
+        <table>
+           <tbody>
+              <Statistic text="good" value={good}/>
+              <Statistic text="neutral" value={neutral}/>
+              <Statistic text="bad" value={bad}/>
+              <Statistic text="all" value={sum}/>
+              <Statistic text="average" value={av || 0}/>
+              <Statistic text="positive" value={(positive || 0) + "%"}/>
+           </tbody>
+        </table>
+      </div>   
+    )
+  }
+  
 }
 
 const App = () => {
@@ -37,12 +51,6 @@ const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-  
-  console.log("good:", good);
-  console.log("neutral:", neutral);
-  console.log("bad:", bad);
-
-
 
   return (
     <div>
