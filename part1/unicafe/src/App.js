@@ -8,7 +8,27 @@ const Button = ({text, eventHandler}) => {
 
 const Display = ({text, number}) => {
   return(
-      <div>{text} {number}</div>
+      <>
+        <b>{text}:</b> {number}<br/>
+      </>
+  );
+}
+
+const Statistics = ({good, neutral, bad}) => {
+  const sum = good + neutral + bad;
+  const av = (good - bad) / (sum);
+  const positive = (good/sum) * 100;
+
+  return (
+    <div>
+      <Display text="good" number={good}/>
+      <Display text="neutral" number={neutral} />
+      <Display text="bad" number={bad} />
+      <Display text="all" number={sum} />
+      <Display text="average" number={av || 0} />
+      <Display text="positive" number={(positive || 0) + "%"} />
+    </div>
+      
   );
 }
 
@@ -32,9 +52,8 @@ const App = () => {
       <Button text="bad" eventHandler={()=>setBad(bad+1)} />
 
       <h1>statistics</h1>
-      <Display text="good" number={good} />
-      <Display text="neutral" number={neutral} />
-      <Display text="bad" number={bad} />
+      <Statistics good={good} neutral={neutral} bad={bad} />  
+
     </div>
   )
 }
