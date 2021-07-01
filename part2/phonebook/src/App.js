@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 
 
-const Numbers = ({contacts}) => {
+const Numbers = ({persons}) => {
   return(
     <ul>
-
-        {contacts.map(contact => <Number key={contact.name} name={contact.name} number={contact.number}/>)}
+        {persons.map(contact => <Number key={contact.name} name={contact.name} number={contact.number}/>)}
     </ul>
   )
 }
@@ -32,13 +31,12 @@ const PersonForm = ({addName, handleNameChange, newName, handleNumberChange, new
 }
 
 const App = () => {
-  const [ contacts, setContacts ] = useState([
+  const [ persons, setPersons ] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
     { name: 'Ada Lovelace', number: '39-44-5323523' },
     { name: 'Dan Abramov', number: '12-43-234345' },
     { name: 'Mary Poppendieck', number: '39-23-6423122' }
   ]) 
-  const [ filteredContacts, setFilteredContacts ] = useState(contacts);
 
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
@@ -49,9 +47,11 @@ const App = () => {
       if (newName && newNumber) {
       const newNameObj = {"name": newName, "number": newNumber}
       
-      contacts.find(person => person.name === newNameObj.name)
+
+      /*Check if person is already in Phonebook.*/
+      persons.find(person => person.name === newNameObj.name)
       ? alert(`${newNameObj.name} is already added to phonebook`)
-      : setContacts(contacts.concat(newNameObj))
+      : setPersons(persons.concat(newNameObj))
 
       setNewName('')
       setNewNumber('')
@@ -69,18 +69,26 @@ const App = () => {
 
    const handleSearchInput = (event) => {
     setSearchInput(event.target.value);
-    const filtered = contacts.filter((contact) =>
-      contact.name.toLowerCase().includes(event.target.value.toLowerCase())
-    );
-    setFilteredContacts(filtered);
   }
 
+
+  const filteredPersons = searchInput
+  ? persons.filter(person => person.name.toLowerCase().search(searchInput.toLowerCase()) !== -1)
+  : persons;
+
+ /* so würde das genauso gehen:
+  let filteredPersons = ""
+  if (searchInput){
+  	 filteredPersons = persons.filter(person => person.name.toLowerCase().search(searchInput.toLowerCase()) !== -1)
+  } else {
+  	 filteredPersons = persons
+  }*/
 
   return (
     <div>
       <h2>Phonebook</h2>
         <div>
-          filter shown with <input onChange={handleSearchInput} value={searchInput}/>
+          filter shown with <input value={searchInput} onChange={handleSearchInput}/>
         </div>
       <h2>add a new</h2>
        <PersonForm
@@ -91,7 +99,7 @@ const App = () => {
         newNumber={newNumber}
        />
       <h2>Numbers</h2>
-      <Numbers contacts={filteredContacts}  searchInput={searchInput}/>
+      <Numbers persons={filteredPersons}/>
     </div>
   )
 }
