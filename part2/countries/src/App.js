@@ -6,11 +6,13 @@ import SingleCountry from './components/SingleCountry'
 
 const App = () => {
   const [ countries, setCountries ] = useState([])
-  const [ searchInput, setSearchInput ] = useState("")
+  const [ searchInput, setSearchInput ] = useState("fa")
   
   const handleSearchInput = (e) => {
     setSearchInput(e.target.value)
   }
+
+  const handleShowSingleCountry = (name) => setSearchInput(name)
 
   const countriesDisplay = searchInput
   ? countries.filter(country => country.name.toLowerCase().search(searchInput.toLowerCase()) !== -1)
@@ -36,9 +38,9 @@ const App = () => {
         <input value={searchInput} onChange={handleSearchInput} />
         {
           singleCountry ? 
-          <SingleCountry country={countriesDisplay[0]}/> :
+          <SingleCountry country={countriesDisplay[0]} /> :
             countryList ?
-            <Countrieslist countries={countriesDisplay}/> :
+            <Countrieslist countries={countriesDisplay} handleShowSingleCountry={handleShowSingleCountry}/> :
             <div>Too many matches, specify another filter</div>
         }
 
