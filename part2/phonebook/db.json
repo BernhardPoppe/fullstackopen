@@ -1,34 +1,19 @@
 {
   "persons": [
     {
-      "name": "dfdfdf",
-      "number": "df",
-      "id": 10
+      "name": "Max Mustermann",
+      "number": "069910343434",
+      "id": 1
     },
     {
-      "name": "dfdf",
-      "number": "dfdf",
-      "id": 11
+      "name": "Mister Mann",
+      "number": "069910343432",
+      "id": 2
     },
     {
-      "name": "xxx",
-      "number": "232323",
-      "id": 12
-    },
-    {
-      "name": "xxxx",
-      "number": "df",
-      "id": 13
-    },
-    {
-      "name": "ddd",
-      "number": "Bernhard",
-      "id": 14
-    },
-    {
-      "name": "ddfdfdf",
-      "number": "df",
-      "id": 15
+      "name": "Ein Dummyuser",
+      "number": "069910343423",
+      "id": 3
     }
   ]
 }
