@@ -1,16 +1,25 @@
 import React from 'react'
 
-const Number = ({name, number}) => {
+const Number = ({name, number, deleteNumber}) => {
   return(
-    <li>{name} {number}</li>
+    <li>{name} {number}
+    <button onClick={deleteNumber}>delete</button>
+    </li>
   )
 }
 
 
-const Numbers = ({persons}) => {
+const Numbers = ({persons, deleteNumberOf}) => {
+
   return(
     <ul>
-        {persons.map(contact => <Number key={contact.name} name={contact.name} number={contact.number}/>)}
+        {persons.map(person => 
+            <Number
+              deleteNumber={() => deleteNumberOf(person.id)}
+              key={person.name}
+              name={person.name}
+              number={person.number}
+            />)}
     </ul>
   )
 }

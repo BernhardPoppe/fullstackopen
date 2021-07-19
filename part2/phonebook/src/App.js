@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import Numbers from './components/Numbers'
 import PersonForm from './components/PersonForm'
 import numberService from './services/numberService'
@@ -19,7 +18,7 @@ const App = () => {
   }, [])
 
   const addName = (event) => {
-    event.preventDefault();
+    event.preventDefault()
       if (newName && newNumber) {
       const newNameObj = {"name": newName, "number": newNumber}
       
@@ -33,7 +32,7 @@ const App = () => {
           .create(newNameObj)
           .then(newPerson => {
               console.log(newPerson)
-              setPersons(persons.concat(newNameObj))
+              setPersons(persons.concat(newPerson))
           })
       }
 
@@ -53,13 +52,24 @@ const App = () => {
   }
 
    const handleSearchInput = (event) => {
-    setSearchInput(event.target.value);
+    setSearchInput(event.target.value)
+  }
+
+  const deleteNumberOf = (id) => {
+    if (window.confirm("Do you really want to leave?")) {
+       numberService
+      .deleteNumber(id)
+      .then(newPerson => {
+                setPersons(persons.filter(n => n.id !== id))
+      })
+    }
+   
   }
 
 
   const filteredPersons = searchInput
   ? persons.filter(person => person.name.toLowerCase().search(searchInput.toLowerCase()) !== -1)
-  : persons;
+  : persons
 
  /* so würde das genauso gehen:
   let filteredPersons = ""
@@ -82,9 +92,10 @@ const App = () => {
         newName={newName}
         handleNumberChange={handleNumberChange}
         newNumber={newNumber}
+
        />
       <h2>Numbers</h2>
-      <Numbers persons={filteredPersons}/>
+      <Numbers persons={filteredPersons} deleteNumberOf={deleteNumberOf} />
     </div>
   )
 }
