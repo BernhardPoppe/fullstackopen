@@ -15,7 +15,7 @@ const Numbers = ({persons, deleteNumberOf}) => {
     <ul>
         {persons.map(person => 
             <Number
-              deleteNumber={() => deleteNumberOf(person.id)}
+              deleteNumber={() => deleteNumberOf(person)}
               key={person.name}
               name={person.name}
               number={person.number}
