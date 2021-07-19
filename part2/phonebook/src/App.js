@@ -1,35 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
-
-const Numbers = ({persons}) => {
-  return(
-    <ul>
-        {persons.map(contact => <Number key={contact.name} name={contact.name} number={contact.number}/>)}
-    </ul>
-  )
-}
-const Number = ({name, number}) => {
-  return(
-    <li>{name} {number}</li>
-  )
-}
-
-const PersonForm = ({addName, handleNameChange, newName, handleNumberChange, newNumber}) => {
-  return(
-    <form onSubmit={addName}>
-        <div>
-          name: <input onChange={handleNameChange} value={newName}/>
-        </div>
-        <div>
-          number: <input onChange={handleNumberChange} value={newNumber}/>
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-  )
-}
+import Numbers from './components/Numbers'
+import PersonForm from './components/PersonForm'
+import numberService from './services/numberService'
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
@@ -38,12 +11,10 @@ const App = () => {
   const [ searchInput, setSearchInput ] = useState('')
 
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('personas loaded.')
-        setPersons(response.data)
+    numberService
+      .getAll()
+      .then(initialPersonas => {
+          setPersons(initialPersonas)
       })
   }, [])
 
@@ -54,10 +25,19 @@ const App = () => {
       
 
       /*Check if person is already in Phonebook.*/
-      persons.find(person => person.name === newNameObj.name)
-      ? alert(`${newNameObj.name} is already added to phonebook`)
-      : setPersons(persons.concat(newNameObj))
+      if (persons.find(person => person.name === newNameObj.name)) {
+        alert(`${newNameObj.name} is already added to phonebook`)
+      } else {
 
+         numberService
+          .create(newNameObj)
+          .then(newPerson => {
+              console.log(newPerson)
+              setPersons(persons.concat(newNameObj))
+          })
+      }
+
+      //Reset Input Forumlar.
       setNewName('')
       setNewNumber('')
     }
