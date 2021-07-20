@@ -49,11 +49,25 @@ app.get('/api/persons/:id', (request, response) => {
 
 app.post('/api/persons', (request, response) => {
 	let data = request.body
+	if (!request.body.name) {
+		return response.status(400).json({ 
+	     	error: 'name is missing' 
+	    })
+	} else if (!request.body.number) {
+		return response.status(400).json({ 
+      		error: 'number missing' 
+    	})
+	}
+
+	if(persons.find(person => person.name === request.body.name)) {
+		return response.status(400).json({ 
+      		error: 'name must be unique' 
+    	})
+	}
+
  	const new_id = Math.floor(Math.random() * 1000000000)
  	data.id = new_id
- 	console.log(data)
  	persons = persons.concat(data)
- 	console.log(persons)
  	response.json(persons)
 })
 
